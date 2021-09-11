@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="mapstogpx.com" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+  <metadata>
+    <link href="http://www.mapstogpx.com">
+      <text>Sverrir Sigmundarson</text>
+    </link>
+    <!--desc>Map data ©2021</desc-->
+    <!--copyright author="Google Inc">
+    	<year>2021</year>
+    	<license>https://developers.google.com/maps/terms</license>
+    </copyright-->
+    <!--url>https://www.google.com/maps/dir/-30.0108185,-51.1395485/-30.0111254,-51.138629/@-30.0109985,-51.1400926,18z/am=t/data=!3m1!4b1!4m2!4m1!3e0?shorturl=1&hl=en</url-->
+    <time>2021-09-06T20:17:41Z</time>
+  </metadata>
+  <wpt lat="-30.0108185" lon="-51.1395485">
+    <name>Porto Alegre - RS</name>
+    <desc>R. Aurélio Réis, 1-127 - Jardim Itu-Sabará, Porto Alegre - RS, 91380-330, Brazil</desc>
+  </wpt>
+  <wpt lat="-30.0111254" lon="-51.138629">
+    <name>Porto Alegre - RS</name>
+    <desc>R. Aurélio Réis, 129-199 - Jardim Itu-Sabará, Porto Alegre - RS, 91380-330, Brazil</desc>
+  </wpt>
+<trk>
+  <name>Porto Alegre - RS to Porto Alegre - RS</name>
+  <number>1</number>
+  <trkseg>
+  <trkpt lat="-30.0108185" lon="-51.1395485">
+    <ele>16.859014511108</ele>
+    <name>TP001</name>
+  </trkpt>
+  <trkpt lat="-30.01094" lon="-51.13917">
+    <ele>16.940084457397</ele>
+    <name>TP002</name>
+  </trkpt>
+  <trkpt lat="-30.01107" lon="-51.13879">
+    <ele>17.757328033447</ele>
+    <name>TP003</name>
+  </trkpt>
+  <trkpt lat="-30.01108" lon="-51.13876">
+    <ele>18.963256835938</ele>
+    <name>TP004</name>
+  </trkpt>
+  <trkpt lat="-30.01113" lon="-51.13863">
+    <ele>18.728130340576</ele>
+    <name>TP005</name>
+  </trkpt>
+  <trkpt lat="-30.0111254" lon="-51.138629">
+    <ele>18.538675308228</ele>
+    <name>TP006</name>
+  </trkpt>
+  </trkseg>
+</trk>
+</gpx>
