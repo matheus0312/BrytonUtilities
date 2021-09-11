@@ -1,0 +1,44 @@
+How to decode the Bryton route files:
+.fit
+Work in progress, see TestTrack5-1.fit file
+
+.smy
+Header file with general information for route
+2 bytes reserved (0100)
+	4 bytes number os points
+		  4 bytes lat bounding box NE
+		            4 bytes lat bounding box SW
+		                      4 bytes lon bounding box NE
+		                                4 bytes lon bounding box SW
+		                                          4 bytes distance
+		                                          			4 bytes TBD? (appears to always end in FE)
+
+.zinfo
+Header file indicating number o .zmap files
+6 bytes header (hard coded 0300 0000 0c00)
+			   2 bytes number of files
+				    2 total bytes number of points
+				    	 2 bytes reserved 0000
+				    	 	  2 bytes number of points shifted 1 to the left(ex.: 1200 -> 2001, 1234 -> 2341)
+				    	 	  	   2 bytes reserved 0000
+										4 bytes first file (hard coded ba05 0000 9906 0000)
+															4 bytes second file (hard coded b905 0000 9906 0000)
+
+.zmap
+File indicating all points that form the described route
+4 bytes latitude *1000000
+		  4 bytes longitude *1000000
+		  			4 bytes altitude
+		  					  4 bytes point identification
+
+.tinfo
+File indicating all turn and POI information along route
+4 bytes point identification (a long route will have points without instructions)
+     4 bytes direction instruction (01 go ahead, 02 turn right, 21 end of route, ...) , after end of route indicates POI number (65 peak, 68 Checkpoint, 66 Food, 64 General)
+       	  8 bytes distance in lane TBD better describe this attribute
+                    8 bytes TBD?
+							      32 bytes lane identification (street blablabla)
+
+TBD:
+	-	Why .zmap is sometimes divided in 2 or more ?
+	-	Add indication of data size and file size
