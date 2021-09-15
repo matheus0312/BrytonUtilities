@@ -4,30 +4,52 @@
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
 import os
+
+import fit_encode
 import gpx_utilities
 import bin_utilities
+import fit_decode
 import fit_utilities
+import analysis
 
-filename = 'VoltaAelDouglas-1'
+###################################################
+# configuration
 
-# gpx_path = os.path.join(os.path.dirname(__file__), + '/files/', filename + '.gpx')
-# gpx_file = gpx_utilities.decode_gpx(gpx_path)
+# location of input gpx file
+inputgpx = 'TestTrack5.gpx'
+outputfit = 'out.fit'
 
-# print('tinfo')
-# tinfo_path = os.path.join(os.path.dirname(__file__) + '/files/', filename + '.tinfo')
-# tinfo_file = bin_utilities.decode_bin(tinfo_path)
-#
-# print('smy')
-# smy_path = os.path.join(os.path.dirname(__file__) + '/files/', filename + '.smy')
-# smy_file = bin_utilities.decode_bin(smy_path)
-#
-# print('zinfo')
-# zinfo_path = os.path.join(os.path.dirname(__file__) + '/files/',  filename + '/'+ filename + '.zinfo')
-# zinfo_file = bin_utilities.decode_bin(zinfo_path)
+#defines tipe of files to be analyzed (options: none, fit)
+analysis_mode = 'none'
 
-print('fit')
-fit_path = os.path.join(os.path.dirname(__file__) + '/files/', filename + '.fit')
-fit_file = bin_utilities.decode_bin(fit_path)
 
+
+
+###################################################
+# analyzing files
+
+# function to help decode fit files
+#analysis.analyze_fit_files(analysis_mode)
+
+
+###################################################
+# decoding input
+
+#decoding gpx file
+#gpx_path = os.path.join(os.path.dirname(__file__) + '/files/' + inputgpx)
+#gpx_file = gpx_utilities.decode_gpx(gpx_path)
+
+###################################################
+# decoding input
+
+# working with data
+
+
+###################################################
+# encoding output
+
+fit_path = os.path.join(os.path.dirname(__file__) + '/files/' + outputfit)
+fit_encode.encode_fit(fit_path)
+print()
 
 

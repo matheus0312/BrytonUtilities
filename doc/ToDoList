@@ -1,0 +1,64 @@
+To do list:
+
+Investigations:
+
+	-	Is the alphabet necessary for the exibition of specific characters?
+		Adding accented characters breaks the file, accented characters have special coding as follows:
+		à C3A0
+		á C3A1
+		ã C3A3
+		ª C2AA
+		â C3A2
+		é C3A9 
+		ê C3AA
+		í C3AD
+		î C3AE
+		ó C3B3
+		õ C3B5
+		º C2BA
+		ú C3B4
+		ü C3BA
+		û C3BC
+		Apparentely the alphabet has no effect on the file (no modification in .smy, .tinfo,...). Having the alphabet as 02 00 00 43 appears to be enough for the file to work.
+		
+	-	What is the conversion of maximum and minimum altitude to the data registered in .fit (appears to be around 5 wth 2500 being sea level)?
+	
+	Not essential
+	-	Are the 2 bytes in header and footer of .fit a form of checksum ?
+		Filling this fields with 00 00 has no effect on the file handling by the gps unit
+	-	How and where the size of the alphabet is determined ?
+		The alphabet has no effect on the file handling by the gps unit.
+		Padding this fields with 00 00 appears to have no effect in output file?
+	-	What is the logic behind the division of .zmap files ?
+		Dealt by the GPS unit, no need to investigate
+	-	Why sometimes files have more than 1 part Ex.: the same file may contain part 3 and 5 of a route
+		Dealt by the GPS unit, no need to investigate
+
+Tests to perform:
+	Analysis:
+	- Add POIs of every type to verify how it is identified in .fit (65=peak,64=general,...)
+	- Create routes with different altimetries and verify what is the unit used in file 
+	
+
+	Test:
+	- Add POIs every 100m of a known empty route with identifications out of the expected range and see how it behaves.
+	- Add turns every 100m of a known empty route to identify its identification (01=head on,02= right,...).
+	- Analyze the special characters encoding (specifically from C2 00 to C3 FF, if possible extend the search)
+	- Modify altimetry to better understand how the altimeter profile behaves
+
+Future functionalities
+	-	Decode GPX files in usefull structure
+	-	Calculate extra information based on GPX data:
+		- Total distância
+		- Lat/Lon bounding boxes
+		- Minimum, maximum and total elevation
+		- Number of points
+		- Number of instructions (turns and POIs)
+	-	Find out how to calculate the size of output.fit based on number of points/instructions.
+	-	Create automatic POI in peaks based on elevation data
+	-	Add automatic name to peak based on google maps
+	-	Create personalized POI based on distance from beginning
+	-	Create automatic POI based on location of food places using as basis database (gas stations, supermarkets)
+	-	Decode input FIT files
+	- 	Encode output GPX files
+	-	Add visualization of GPX files 
