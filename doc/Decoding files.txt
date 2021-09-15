@@ -1,44 +1,100 @@
 How to decode the Bryton route files:
-.fit
-Work in progress, see TestTrack5-1.fit file
+Aparentely the bryton app does not decode imported .gpx files correctly, it is necessary to use the routes create in the app to avoid bugs.
+
+
+.fit 
+[Header]
+4 bytes reserved 0E 10 6C 00
+4 bytes file size -16bytes (ex.: in a file with total size 32 bytes, this field will present 16)
+4 bytes reserved 2E 46 49 54
+2 bytes (maybe it is a checksum, modifying it to 0000 did not affect the output files)?
+31 bytes reserved 41 00 00 FE 00 08 01 02 84 02 04 85 03 04 85 04 04 85 05 04 85 06 04 86 07 02 84 08 02 84 01
+
+[Total data (data to SMY file)]
+2 bytes number of points
+4 bytes lat ne bounding box
+4 bytes lat sw bounding box
+4 bytes lon ne bounding box
+4 bytes lon sw bounding box
+4 bytes total distance in meters
+2 bytes maximum altitude (data unit must be determined)?
+2 bytes minimum altitude (data unit must be determined?
+
+
+[Alphabet]
+9 bytes reserved 42 00 00 FB 00 01 01 02 84
+Repeating for each instruction
+	1 byte reserved 02
+	2 bytes instruction (00 00, 00 01, 00 02,...)
+Ending with 43 00 00
+
+
+10 bytes reserved 43 00 00 FD 00 01 01 02 84 03 
+2 bytes number of instructions
+21 bytes reserved 44 00 00 FA 00 05 01 02 84 02 01 00 03 04 86 04 04 86 05 20 07
+
+[Starting on 04 00 00 - Instructions (data to TINFO file)]
+Repeating for each instruction
+	1 byte reserved 04
+	2 bytes point identification (a long route will have points without instructions)
+	1 byte direction instruction (01 go ahead, 02 turn right, 21 end of route, ...) , after end of route indicates POI number (65 peak, 68 Checkpoint, 66 Food, 64 General)
+	4 bytes distance in lane TBD better describe this attribute, for POI is distance from start of route
+	4 bytes reserved FF FF FF FF for directions 00 00 00 00 for POIs
+	32 bytes lane identification (street blablabla)
+Ending with 45 00 00
+
+[Points in route]
+10 bytes reserved 45 00 00 FC 00 01 01 02 84 05
+2 bytes number of points
+15 bytes reserved 46 00 00 F9 00 03 01 04 85 02 04 85 03 02 84
+Repeating for each point
+	1 byte reserved 06
+	4 bytes latitude
+	4 bytes longitude
+	2 bytes altitude
+
+2 bytes (maybe it is a checksum, modifying it to 0000 did not affect the output files)?
+
+
+--------------------------------------------------------------------------------
 
 .smy
 Header file with general information for route
 2 bytes reserved (0100)
-	4 bytes number os points
+	2 bytes number os points
 		  4 bytes lat bounding box NE
 		            4 bytes lat bounding box SW
 		                      4 bytes lon bounding box NE
 		                                4 bytes lon bounding box SW
 		                                          4 bytes distance
-		                                          			4 bytes TBD? (appears to always end in FE)
+		                                          			3 bytes (not found in .fit)? 
+		                                          				1 byte reserved FE
 
 .zinfo
 Header file indicating number o .zmap files
 6 bytes header (hard coded 0300 0000 0c00)
-			   2 bytes number of files
-				    2 total bytes number of points
+			   2 bytes number of files parts
+				    2 total bytes number of points ?
 				    	 2 bytes reserved 0000
-				    	 	  2 bytes number of points shifted 1 to the left(ex.: 1200 -> 2001, 1234 -> 2341)
+				    	 	  2 bytes number of points shifted 1 to the left(ex.: 1200 -> 2001, 1234 -> 2341 same as multiplying by 16)
 				    	 	  	   2 bytes reserved 0000
-										4 bytes first file (hard coded ba05 0000 9906 0000)
-															4 bytes second file (hard coded b905 0000 9906 0000)
+										8 bytes file names (hard coded ba05 0000 9906 0000)
+															8 bytes second file (hard coded b905 0000 9906 0000)
+																			....
 
-.zmap
-File indicating all points that form the described route
+.zmap -> completely found in .fit
+File indicating the points that form the described route
 4 bytes latitude *1000000
 		  4 bytes longitude *1000000
 		  			4 bytes altitude
 		  					  4 bytes point identification
 
-.tinfo
+.tinfo -> Completely found in .fit
 File indicating all turn and POI information along route
-4 bytes point identification (a long route will have points without instructions)
-     4 bytes direction instruction (01 go ahead, 02 turn right, 21 end of route, ...) , after end of route indicates POI number (65 peak, 68 Checkpoint, 66 Food, 64 General)
-       	  8 bytes distance in lane TBD better describe this attribute
-                    8 bytes TBD?
+2 bytes point identification (a long route will have points without instructions)
+     2 bytes direction instruction (01 go ahead, 02 turn right, 21 end of route, ...) , after end of route indicates POI number (65 peak, 68 Checkpoint, 66 Food, 64 General)
+       	  4 bytes distance in lane TBD better describe this attribute
+                    4 bytes reserved FF FF FF FF for directions 00 00 00 00 for POIs
 							      32 bytes lane identification (street blablabla)
 
-TBD:
-	-	Why .zmap is sometimes divided in 2 or more ?
-	-	Add indication of data size and file size
+

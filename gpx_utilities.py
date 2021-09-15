@@ -6,9 +6,12 @@ from geopy import distance
 
 
 #
+from gpxpy.gpx import GPX
+
+
 def decode_gpx(gpx_path):
     gpx_file = open(gpx_path, 'r')
-    gpx = gpxpy.parse(gpx_file)
+    gpx: GPX = gpxpy.parse(gpx_file)
     l=0
     for track in gpx.tracks:
         for segment in track.segments:
