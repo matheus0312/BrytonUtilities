@@ -20,7 +20,7 @@ inputgpx = 'TestTrack5.gpx'
 outputfit = 'out.fit'
 
 #defines tipe of files to be analyzed (options: none, fit)
-analysis_mode = 'none'
+analysis_mode = 'fit'
 
 
 
@@ -36,8 +36,8 @@ analysis_mode = 'none'
 # decoding input
 
 #decoding gpx file
-#gpx_path = os.path.join(os.path.dirname(__file__) + '/files/' + inputgpx)
-#gpx_file = gpx_utilities.decode_gpx(gpx_path)
+gpx_path = os.path.join(os.path.dirname(__file__) + '/files/' + inputgpx)
+gpx_file = gpx_utilities.decode_gpx(gpx_path)
 
 ###################################################
 # decoding input
@@ -48,8 +48,8 @@ analysis_mode = 'none'
 ###################################################
 # encoding output
 
-fit_path = os.path.join(os.path.dirname(__file__) + '/files/' + outputfit)
-fit_encode.encode_fit(fit_path)
+#fit_path = os.path.join(os.path.dirname(__file__) + '/files/' + outputfit)
+#fit_encode.encode_fit(fit_path)
 print()
 
 

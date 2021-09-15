@@ -22,6 +22,7 @@ Investigations:
 		Apparentely the alphabet has no effect on the file (no modification in .smy, .tinfo,...). Having the alphabet as 02 00 00 43 appears to be enough for the file to work.
 		
 	-	What is the conversion of maximum and minimum altitude to the data registered in .fit (appears to be around 5 wth 2500 being sea level)?
+		Each increment/decrement of 1 meter in .zmap is related to the increment/decrement of 5 units in the .fit file. 
 	
 	Not essential
 	-	Are the 2 bytes in header and footer of .fit a form of checksum ?
@@ -38,6 +39,7 @@ Tests to perform:
 	Analysis:
 	- Add POIs of every type to verify how it is identified in .fit (65=peak,64=general,...)
 	- Create routes with different altimetries and verify what is the unit used in file 
+	- Verify how the gps unit handles routes with many points, apparentely the fit files are limited to around 300 points (or not, the 200km has 2658 points)
 	
 
 	Test:

@@ -1,6 +1,30 @@
 import struct
 from geopy import distance
 
+def write_points(fit_file):
+    for i in range (0,50): #TBD Update number of instructions
+        # 1 byte
+        byte=b'\x05'
+        fit_file.write(byte)
+
+        # 4 bytes
+        # point latitude
+        point_latitude = 0
+        byte = struct.pack('<i',point_latitude)
+        fit_file.write(byte)
+
+        # 4 bytes
+        # point longitude
+        point_longitude = 0
+        byte = struct.pack('<i',point_longitude)
+        fit_file.write(byte)
+
+        # 2 bytes
+        # point altitude
+        point_altitude = 0
+        byte = struct.pack('<H',point_altitude)
+        fit_file.write(byte)
+
 def write_instructions(fit_file):
     for i in range (0,50): #TBD Update number of points
         # 1 byte
@@ -127,7 +151,9 @@ def encode_fit (fit_path):
     byte=b'\x42\x00\x00\xFB\x00\x01\x01\x02\x84'
     fit_file.write(byte)
 
-    write_alphabet(fit_file)
+    byte=b'\x02\x00\x00'
+    fit_file.write(byte)
+    #write_alphabet(fit_file)
 
     # 10 bytes
     # header
@@ -146,11 +172,13 @@ def encode_fit (fit_path):
 
     write_instructions(fit_file)
 
-
-
-
     # 15 bytes
     # header
     byte=b'\x46\x00\x00\xF9\x00\x03\x01\x04\x85\x02\x04\x85\x03\x02\x84'
+    fit_file.write(byte)
+
+    write_points(fit_file)
+
+    byte=b'\x00\x00'
     fit_file.write(byte)
 
