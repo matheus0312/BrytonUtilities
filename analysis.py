@@ -1,4 +1,5 @@
 import fit_decode
+import os
 
 def analyze_fit_files(analysis_mode):
     if analysis_mode == 'fit':
