@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="mapstogpx.com" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+  <metadata>
+    <link href="http://www.mapstogpx.com">
+      <text>Sverrir Sigmundarson</text>
+    </link>
+    <!--desc>Map data ©2021</desc-->
+    <!--copyright author="Google Inc">
+    	<year>2021</year>
+    	<license>https://developers.google.com/maps/terms</license>
+    </copyright-->
+    <!--url>https://www.google.com/maps/dir/-30.0393431,-50.1493285/-30.0330446,-50.1523087/@-30.0386282,-50.1539001,17z/am=t/data=!3m1!4b1!4m2!4m1!3e0?shorturl=1&hl=en</url-->
+    <time>2021-09-11T17:08:40Z</time>
+  </metadata>
+  <wpt lat="-30.0393431" lon="-50.1493285">
+    <name>Tramandaí - RS</name>
+    <desc>R. Alagoas, 1356 - Nova Tramandaí, Tramandaí - RS, 95590-000, Brazil</desc>
+  </wpt>
+  <wpt lat="-30.0330446" lon="-50.1523087">
+    <name>Tramandaí - RS</name>
+    <desc>R. Maranhão, 782 - Nova Tramandaí, Tramandaí - RS, 95590-000, Brazil</desc>
+  </wpt>
+<trk>
+  <name>Tramandaí - RS to Tramandaí - RS</name>
+  <number>1</number>
+  <trkseg>
+  <trkpt lat="-30.0393593" lon="-50.1493347">
+    <ele>6.2319207191467</ele>
+    <name>TP001</name>
+    <desc>Head &lt;b&gt;west&lt;/b&gt; on &lt;b&gt;Av. Curitiba&lt;/b&gt; toward &lt;b&gt;R. Amapá&lt;/b&gt;</desc>
+  </trkpt>
+  <trkpt lat="-30.03932" lon="-50.14949">
+    <ele>6.8419013023376</ele>
+    <name>TP002</name>
+  </trkpt>
+  <trkpt lat="-30.03923" lon="-50.14979">
+    <ele>6.5246458053589</ele>
+    <name>TP003</name>
+  </trkpt>
+  <trkpt lat="-30.03911" lon="-50.15019">
+    <ele>7.3790574073792</ele>
+    <name>TP004</name>
+  </trkpt>
+  <trkpt lat="-30.03905" lon="-50.1504">
+    <ele>6.8101229667664</ele>
+    <name>TP005</name>
+  </trkpt>
+  <trkpt lat="-30.03897" lon="-50.1507">
+    <ele>7.4873561859131</ele>
+    <name>TP006</name>
+  </trkpt>
+  <trkpt lat="-30.03888" lon="-50.15101">
+    <ele>7.5589427947998</ele>
+    <name>TP007</name>
+  </trkpt>
+  <trkpt lat="-30.0388" lon="-50.15132">
+    <ele>8.2578258514404</ele>
+    <name>TP008</name>
+  </trkpt>
+  <trkpt lat="-30.03871" lon="-50.15162">
+    <ele>7.9151244163513</ele>
+    <name>TP009</name>
+  </trkpt>
+  <trkpt lat="-30.03863" lon="-50.15193">
+    <ele>8.0302696228027</ele>
+    <name>TP010</name>
+  </trkpt>
+  <trkpt lat="-30.03854" lon="-50.15224">
+    <ele>8.3749418258667</ele>
+    <name>TP011</name>
+  </trkpt>
+  <trkpt lat="-30.03849" lon="-50.15241">
+    <ele>8.7308902740479</ele>
+    <name>TP012</name>
+  </trkpt>
+  <trkpt lat="-30.03844" lon="-50.15259">
+    <ele>8.7546453475952</ele>
+    <name>TP013</name>
+  </trkpt>
+  <trkpt lat="-30.03835" lon="-50.15289">
+    <ele>8.8408794403076</ele>
+    <name>TP014</name>
+  </trkpt>
+  <trkpt lat="-30.03826" lon="-50.1532">
+    <ele>9.0457677841187</ele>
+    <name>TP015</name>
+  </trkpt>
+  <trkpt lat="-30.03817" lon="-50.15351">
+    <ele>9.5973711013794</ele>
+    <name>TP016</name>
+  </trkpt>
+  <trkpt lat="-30.03809" lon="-50.15382">
+    <ele>10.051719665527</ele>
+    <name>TP017</name>
+  </trkpt>
+  <trkpt lat="-30.03792" lon="-50.15443">
+    <ele>10.290046691895</ele>
+    <name>TP018</name>
+  </trkpt>
+  <trkpt lat="-30.0379183" lon="-50.1544329">
+    <ele>9.8009462356567</ele>
+    <name>TP019</name>
+    <desc>Turn &lt;b&gt;right&lt;/b&gt; onto &lt;b&gt;R. Maranhão&lt;/b&gt;</desc>
+    <cmt>turn-right</cmt>
+  </trkpt>
+  <trkpt lat="-30.03767" lon="-50.15432">
+    <ele>9.7550821304321</ele>
+    <name>TP020</name>
+  </trkpt>
+  <trkpt lat="-30.03742" lon="-50.15421">
+    <ele>9.3738927841187</ele>
+    <name>TP021</name>
+  </trkpt>
+  <trkpt lat="-30.03716" lon="-50.1541">
+    <ele>9.2613191604614</ele>
+    <name>TP022</name>
+  </trkpt>
+  <trkpt lat="-30.0369" lon="-50.154">
+    <ele>8.9910869598389</ele>
+    <name>TP023</name>
+  </trkpt>
+  <trkpt lat="-30.03615" lon="-50.15367">
+    <ele>8.7803659439087</ele>
+    <name>TP024</name>
+  </trkpt>
+  <trkpt lat="-30.03541" lon="-50.15335">
+    <ele>8.9973487854004</ele>
+    <name>TP025</name>
+  </trkpt>
+  <trkpt lat="-30.03537" lon="-50.15333">
+    <ele>8.8600521087646</ele>
+    <name>TP026</name>
+  </trkpt>
+  <trkpt lat="-30.03534" lon="-50.15332">
+    <ele>9.3778028488159</ele>
+    <name>TP027</name>
+  </trkpt>
+  <trkpt lat="-30.03526" lon="-50.15328">
+    <ele>9.0234031677246</ele>
+    <name>TP028</name>
+  </trkpt>
+  <trkpt lat="-30.03386" lon="-50.15268">
+    <ele>8.7932024002075</ele>
+    <name>TP029</name>
+  </trkpt>
+  <trkpt lat="-30.03304" lon="-50.15231">
+    <ele>8.6537647247314</ele>
+    <name>TP030</name>
+  </trkpt>
+  <trkpt lat="-30.0330446" lon="-50.1523087">
+    <ele>8.3331680297852</ele>
+    <name>TP031</name>
+  </trkpt>
+  </trkseg>
+</trk>
+</gpx>

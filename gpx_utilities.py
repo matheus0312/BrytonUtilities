@@ -1,8 +1,8 @@
 # Library to work with .gpx files
 # gpxpy needs to be installed
-import geopy.distance
+# geopy needs to be installed
 import gpxpy
-from geopy import distance
+# from geopy import distance
 
 
 #
@@ -10,7 +10,6 @@ from gpxpy.gpx import GPX
 
 
 def decode_gpx(gpx_path):
-    gpx_path = 'C:/Projects/PERSONAL_SVN/Python/pythonProject/BrytonUtilities/files/TestRoute/Subidas - Copy.gpx'
     gpx_file = open(gpx_path, 'r')
     #gpx: GPX = gpxpy.parse(gpx_file)
     latitude = []
@@ -26,12 +25,20 @@ def decode_gpx(gpx_path):
             longitude.append(lon)
             ins = 'none'
             instruction.append(ins)
+            alt = 0
+            altitude.append(alt)
         if line.find('<cmt>') !=-1:
             ins = line.lstrip().removeprefix('<cmt>').removesuffix('</cmt>\n')
             instruction.pop()
             instruction.append(ins)
+        if line.find('<ele>') != -1:
+            alt = line.lstrip().removeprefix('<ele>').removesuffix('</ele>\n')
+            altitude.pop()
+            altitude.append(alt)
 
-    print()
+    decoded_gpx = [latitude,longitude,altitude,instruction]
+
+    return decoded_gpx
         #if line.find()
 
   #  l=0

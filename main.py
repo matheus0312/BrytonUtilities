@@ -11,6 +11,7 @@ import bin_utilities
 import fit_decode
 import fit_utilities
 import analysis
+import extract_data
 
 ###################################################
 # configuration
@@ -36,20 +37,20 @@ analysis_mode = 'fit'
 # decoding input
 
 #decoding gpx file
-gpx_path = os.path.join(os.path.dirname(__file__) + '/files/' + inputgpx)
-gpx_file = gpx_utilities.decode_gpx(gpx_path)
+gpx_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/Subidas - Copy.gpx')
+decoded_data = gpx_utilities.decode_gpx(gpx_path)
 
 ###################################################
-# decoding input
-
 # working with data
+#decoded_data = extract_data.add_altitude_data(decoded_data)
+extrated_attributes = extract_data.extract_attributes(decoded_data)
 
-
+print()
 ###################################################
 # encoding output
 
-#fit_path = os.path.join(os.path.dirname(__file__) + '/files/' + outputfit)
-#fit_encode.encode_fit(fit_path)
+fit_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/Subidas.fit')
+fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
 print()
 
 
