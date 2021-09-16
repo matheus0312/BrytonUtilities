@@ -1,26 +1,6 @@
 To do list:
 
 Investigations:
-
-	-	Is the alphabet necessary for the exibition of specific characters?
-		Adding accented characters breaks the file, accented characters have special coding as follows:
-		à C3A0
-		á C3A1
-		ã C3A3
-		ª C2AA
-		â C3A2
-		é C3A9 
-		ê C3AA
-		í C3AD
-		î C3AE
-		ó C3B3
-		õ C3B5
-		º C2BA
-		ú C3B4
-		ü C3BA
-		û C3BC
-		Apparentely the alphabet has no effect on the file (no modification in .smy, .tinfo,...). Having the alphabet as 02 00 00 43 appears to be enough for the file to work.
-		
 	-	What is the conversion of maximum and minimum altitude to the data registered in .fit (appears to be around 5 wth 2500 being sea level)?
 		Each increment/decrement of 1 meter in .zmap is related to the increment/decrement of 5 units in the .fit file. 
 	
@@ -34,6 +14,25 @@ Investigations:
 		Dealt by the GPS unit, no need to investigate
 	-	Why sometimes files have more than 1 part Ex.: the same file may contain part 3 and 5 of a route
 		Dealt by the GPS unit, no need to investigate
+	-	Is the alphabet necessary for the exibition of specific characters?
+		Adding accented characters breaks the file, accented characters have special coding as follows:
+		à C3A0
+		á C3A1
+		ã C3A3
+		ª C2AA
+		â C3A2
+		é C3A9
+		ê C3AA
+		í C3AD
+		î C3AE
+		ó C3B3
+		õ C3B5
+		º C2BA
+		ú C3B4
+		ü C3BA
+		û C3BC
+		Apparentely the alphabet has no effect on the file (no modification in .smy, .tinfo,...). Having the alphabet as 02 00 00 43 appears to be enough for the file to work.
+
 
 Tests to perform:
 	Analysis:
