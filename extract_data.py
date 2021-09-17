@@ -1,6 +1,6 @@
 from geopy import distance
-import requests
-import pandas as pd
+#import requests
+#import pandas as pd
 
 def calculate_instruction_distance(instruction_data,latitude_data,longitude_data):
 
@@ -30,13 +30,13 @@ def calculate_instruction_distance(instruction_data,latitude_data,longitude_data
 
 # script for returning elevation from lat, long, based on open elevation data
 # which in turn is based on SRTM
-def get_elevation(lat, long):
-    query = ('https://api.open-elevation.com/api/v1/lookup'
-             f'?locations={lat},{long}')
-    r = requests.get(query).json()  # json object, various ways you can extract value
-    # one approach is to use pandas json functionality:
-    elevation = pd.json_normalize(r, 'results')['elevation'].values[0]
-    return elevation
+#def get_elevation(lat, long):
+#    query = ('https://api.open-elevation.com/api/v1/lookup'
+#             f'?locations={lat},{long}')
+#    r = requests.get(query).json()  # json object, various ways you can extract value
+#    # one approach is to use pandas json functionality:
+#    elevation = pd.json_normalize(r, 'results')['elevation'].values[0]
+#    return elevation
 
 def add_altitude_data(decoded_data):
 
@@ -56,7 +56,7 @@ def calculate_number_data(instructions_data):
     number_points = len(instructions_data)
     number_instructions = 0
     for instruction_point in instructions_data:
-        if instruction_point != 'none':
+        if instruction_point != 15:
             number_instructions += 1
 
     number_data = [number_points, number_instructions]

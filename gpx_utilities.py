@@ -6,7 +6,6 @@ import gpxpy
 
 from sys import argv
 from os.path import splitext
-from lxml import etree
 from struct import pack
 import re
 
@@ -145,9 +144,9 @@ def decode_gpx(gpx_path):
     gpx_file=open(gpx_path, 'r')
     line = gpx_file.read()
     if '<name>openrouteservice</name>' in line:
-        decode_gpx_ors(gpx_path)
+        decoded_gpx = decode_gpx_ors(gpx_path)
     else:
-        decode_gpx_gmaps(gpx_path)
+        decoded_gpx = decode_gpx_gmaps(gpx_path)
 
 
   #  l=0
@@ -164,4 +163,4 @@ def decode_gpx(gpx_path):
              #   #print(distance.distance((segment.points[i].latitude, segment.points[i].longitude), (segment.points[i+1].latitude, segment.points[i+1].longitude)).km)
 
 
-    return gpx
+    return decoded_gpx
