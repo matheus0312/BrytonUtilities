@@ -45,7 +45,7 @@ def write_points(fit_file,decoded_data):
 
         # 2 bytes
         # point altitude
-        point_altitude = (altitude_data[i] *5) + 2500
+        point_altitude = (int(float(altitude_data[i])) *5) + 2500
         byte = struct.pack('<H',point_altitude)
         fit_file.write(byte)
 
@@ -74,14 +74,14 @@ def write_instructions(fit_file,instructions_data,instruction_distance):
 
             # 1 bytes
             # instruction direction
-            byte = 1 #int(instructions_data[i])
-            byte = struct.pack('<H',byte)
+            byte = b'\x01' #bytes(hex(instructions_data[i]),)
+            #byte = struct.pack('<c',byte)
             fit_file.write(byte)
 
             # 4 bytes
             # instruction distance
-            byte = instruction_distance[i]
-            byte=struct.pack('<I', byte)
+            byte = b'\x01\x02\x03\x04'#int(float(instruction_distance[i]))
+            #byte=struct.pack('<I', byte)
             fit_file.write(byte)
 
             # 4 bytes
@@ -123,8 +123,8 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
 
     total_distance = int(extracted_attributes[1])
     alt_bounding_box = extracted_attributes[2]
-    maximum_altitude = int(alt_bounding_box[0])
-    minimum_altitude = int(alt_bounding_box[1])
+    maximum_altitude = (alt_bounding_box[0]*5) + 2500
+    minimum_altitude = (alt_bounding_box[1]*5) + 2500
     numbers_data = extracted_attributes[3]
     number_point = int(numbers_data[0])
     number_instructions = int(numbers_data[1])
