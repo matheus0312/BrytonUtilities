@@ -28,7 +28,7 @@ def write_points(fit_file,decoded_data):
 
     for i in range (0,len(latitude_data)):
         # 1 byte
-        byte=b'\x05'
+        byte=b'\x06'
         fit_file.write(byte)
 
         # 4 bytes
@@ -60,21 +60,21 @@ def write_instructions(fit_file,instructions_data,instruction_distance):
         # increase identification to make sure that each instruction is in the correct point
         instruction_identification += 1
 
-        # steps without turn instructions are identified with 'none'
-        if instructions_data[i] != 'none':
+        # steps without turn instructions are identified with 15
+        if instructions_data[i] != 15:
             # 1 byte
             byte=b'\x04'
             fit_file.write(byte)
 
             # 2 bytes
             # instruction identification
-            instruction_identification += 1
+            instruction_identification = instruction_identification
             byte = struct.pack('<H',instruction_identification)
             fit_file.write(byte)
 
             # 1 bytes
             # instruction direction
-            byte = b'\x01' #bytes(hex(instructions_data[i]),)
+            byte = b'\x0f' #bytes(hex(instructions_data[i]),)
             #byte = struct.pack('<c',byte)
             fit_file.write(byte)
 
@@ -231,6 +231,17 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     fit_file.write(byte)
 
     write_instructions(fit_file,instructions_data,instruction_distance)
+
+    # 10 bytes
+    # header
+    byte=b'\x45\x00\x00\xFC\x00\x01\x01\x02\x84\x05'
+    fit_file.write(byte)
+
+    # 2 bytes
+    # number of points
+    number_points = number_points
+    byte=struct.pack('<H', number_points)
+    fit_file.write(byte)
 
     # 15 bytes
     # header
