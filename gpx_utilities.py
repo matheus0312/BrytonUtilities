@@ -59,39 +59,6 @@ def decode_gpx_ors(gpx_path):
             number_items +=1
         elif line.find('<type>') != -1 and number_items>0:
             ins = int(line.lstrip().removeprefix('<type>'))
-
-            if ins == 0:
-                ins = 3
-            elif ins == 1:
-                ins = 2
-            elif ins == 2:
-                ins = 7
-            elif ins == 3:
-                ins = 6
-            elif ins == 4:
-                ins = 5
-            elif ins == 5:
-                ins = 4
-            elif ins == 6:
-                ins = 1
-            elif ins == 7:
-                ins = 10
-            elif ins == 8:
-                ins = 8
-            elif ins == 9:
-                ins = 12
-            elif ins == 10:
-                ins = 1
-            elif ins == 11:
-                ins = 1
-            elif ins == 12:
-                ins = 9
-            elif ins == 13:
-                ins = 8
-            elif ins == 14:
-                ins = 1
-            else:
-                ins = 15
             instruction.pop()
             instruction.append(ins)
         elif line.find('<name>') != -1 and number_items>0:
@@ -115,6 +82,7 @@ def decode_gpx_gmaps(gpx_path):
     longitude = []
     altitude = []
     instruction = []
+    name = []
     for line in gpx_file:
         ins = 'null'
         if line.find('lat=') != -1:
@@ -126,6 +94,8 @@ def decode_gpx_gmaps(gpx_path):
             instruction.append(ins)
             alt = 0
             altitude.append(alt)
+            nam = ''
+            name.append(nam)
         if line.find('<cmt>') !=-1:
             ins = line.lstrip().removeprefix('<cmt>').removesuffix('</cmt>\n')
             instruction.pop()
@@ -135,7 +105,7 @@ def decode_gpx_gmaps(gpx_path):
             altitude.pop()
             altitude.append(alt)
 
-    decoded_gpx = [latitude,longitude,altitude,instruction]
+    decoded_gpx = [latitude,longitude,altitude,instruction,name]
 
     return decoded_gpx
         #if line.find()

@@ -9,7 +9,9 @@ def calculate_file_size(numbers_data):
     number_point = numbers_data[0]
     number_instructions = numbers_data[1]
 
-    headers_size = 135
+    #size of header adapted to obtain expected number, counted value was 139, need to understan where difference comes from
+    headers_size = 145
+    alphabet_size = 3 * 1 # only 1 entry is in alphabet
     points_size = number_point * 11
     instructions_size = number_instructions * 44
     difference_file_size = 16
@@ -33,23 +35,23 @@ def write_points(fit_file,decoded_data):
 
         # 4 bytes
         # point latitude
-        point_latitude = int(float(latitude_data[i])*1000000)
+        point_latitude = latitude_data[i]
         byte = struct.pack('<i',point_latitude)
         fit_file.write(byte)
 
         # 4 bytes
         # point longitude
-        point_longitude = int(float(longitude_data[i])*1000000)
+        point_longitude = longitude_data[i]
         byte = struct.pack('<i',point_longitude)
         fit_file.write(byte)
 
         # 2 bytes
         # point altitude
-        point_altitude = (int(float(altitude_data[i])) *5) + 2500
+        point_altitude = altitude_data[i]
         byte = struct.pack('<H',point_altitude)
         fit_file.write(byte)
 
-def write_instructions(fit_file,instructions_data,instruction_distance):
+def write_instructions(fit_file,instructions_data,instruction_distance,name_data):
 
 
 
@@ -61,7 +63,7 @@ def write_instructions(fit_file,instructions_data,instruction_distance):
         instruction_identification += 1
 
         # steps without turn instructions are identified with 15
-        if instructions_data[i] != 15:
+        if instructions_data[i] != b'\xff':
             # 1 byte
             byte=b'\x04'
             fit_file.write(byte)
@@ -74,14 +76,13 @@ def write_instructions(fit_file,instructions_data,instruction_distance):
 
             # 1 bytes
             # instruction direction
-            byte = b'\x0f' #bytes(hex(instructions_data[i]),)
-            #byte = struct.pack('<c',byte)
+            byte = instructions_data[i]
             fit_file.write(byte)
 
             # 4 bytes
             # instruction distance
-            byte = b'\x01\x02\x03\x04'#int(float(instruction_distance[i]))
-            #byte=struct.pack('<I', byte)
+            byte = int(float(instruction_distance[i]))
+            byte=struct.pack('<I', byte)
             fit_file.write(byte)
 
             # 4 bytes
@@ -90,8 +91,15 @@ def write_instructions(fit_file,instructions_data,instruction_distance):
 
             # 32 bytes
             # instruction description
-            # TBD update to contain instruction description
-            byte = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            byte = str.encode(name_data[i],'utf-8')
+
+            if len(byte) < 32:
+                byte += b'\x00' *(32-len(byte))
+            else:
+                byte = byte[:32]
+
+            #byte=struct.pack('<s', byte)
+            #byte = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
             fit_file.write(byte)
 
 def write_alphabet(fit_file):
@@ -113,21 +121,22 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     latitude_data = decoded_data[0]
     longitude_data = decoded_data[1]
     altitude_data = decoded_data[2]
-    instructions_data = decoded_data[3]
+    instruction_data = decoded_data[3]
+    name_data = decoded_data[4]
 
     lat_lon_bounding_box = extracted_attributes[0]
-    lat_ne_bounding_box = int(float(lat_lon_bounding_box[0])*1000000)
-    lat_sw_bounding_box = int(float(lat_lon_bounding_box[1])*1000000)
-    lon_ne_bounding_box = int(float(lat_lon_bounding_box[2])*1000000)
-    lon_sw_bounding_box = int(float(lat_lon_bounding_box[3])*1000000)
+    lat_ne_bounding_box = lat_lon_bounding_box[0]
+    lat_sw_bounding_box = lat_lon_bounding_box[1]
+    lon_ne_bounding_box = lat_lon_bounding_box[2]
+    lon_sw_bounding_box = lat_lon_bounding_box[3]
 
     total_distance = int(extracted_attributes[1])
     alt_bounding_box = extracted_attributes[2]
-    maximum_altitude = (alt_bounding_box[0]*5) + 2500
-    minimum_altitude = (alt_bounding_box[1]*5) + 2500
+    maximum_altitude = alt_bounding_box[0]
+    minimum_altitude = alt_bounding_box[1]
     numbers_data = extracted_attributes[3]
-    number_point = int(numbers_data[0])
-    number_instructions = int(numbers_data[1])
+    number_point = numbers_data[0]
+    number_instructions = numbers_data[1]
     instruction_distance = extracted_attributes[4]
 
     # 4 bytes
@@ -230,7 +239,7 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     byte=b'\x44\x00\x00\xFA\x00\x05\x01\x02\x84\x02\x01\x00\x03\x04\x86\x04\x04\x86\x05\x20\x07'
     fit_file.write(byte)
 
-    write_instructions(fit_file,instructions_data,instruction_distance)
+    write_instructions(fit_file,instruction_data,instruction_distance,name_data)
 
     # 10 bytes
     # header

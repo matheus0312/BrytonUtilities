@@ -12,6 +12,7 @@ import fit_decode
 import fit_utilities
 import analysis
 import extract_data
+import units_conversion
 
 ###################################################
 # configuration
@@ -43,8 +44,12 @@ decoded_data = gpx_utilities.decode_gpx(gpx_path)
 
 ###################################################
 # working with data
-#decoded_data = extract_data.add_altitude_data(decoded_data)
-extrated_attributes = extract_data.extract_attributes(decoded_data)
+
+decoded_data = units_conversion.convert_input_units(decoded_data)
+#INSERTED_POI = [POI NAME, POI ID, DISTANCE FROM START IN METERS]
+inserted_poi = ['BIG', b'\x65', 40000]
+
+extrated_attributes = extract_data.extract_attributes(decoded_data,inserted_poi)
 
 print()
 ###################################################
