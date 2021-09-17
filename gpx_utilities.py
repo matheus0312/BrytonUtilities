@@ -141,6 +141,15 @@ def decode_gpx_gmaps(gpx_path):
     return decoded_gpx
         #if line.find()
 
+def decode_gpx(gpx_path):
+    gpx_file=open(gpx_path, 'r')
+    line = gpx_file.read()
+    if '<name>openrouteservice</name>' in line:
+        decode_gpx_ors(gpx_path)
+    else:
+        decode_gpx_gmaps(gpx_path)
+
+
   #  l=0
    # for track in gpx.tracks:
     #    for segment in track.segments:
