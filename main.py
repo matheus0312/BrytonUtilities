@@ -31,14 +31,16 @@ analysis_mode = 'fit'
 
 # function to help decode fit files
 #analysis.analyze_fit_files(analysis_mode)
+filename = 'RoleGps'
 
 
 ###################################################
 # decoding input
 
 #decoding gpx file
-gpx_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/Subidas - Copy.gpx')
-decoded_data = gpx_utilities.decode_gpx(gpx_path)
+gpx_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/'+filename+'.gpx')
+#decoded_data = gpx_utilities.decode_gpx_gmaps(gpx_path)
+decoded_data = gpx_utilities.decode_gpx_ors(gpx_path)
 
 ###################################################
 # working with data
@@ -49,7 +51,7 @@ print()
 ###################################################
 # encoding output
 
-fit_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/Subidas.fit')
+fit_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/'+filename+'.fit')
 fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
 print()
 
