@@ -39,8 +39,7 @@ filename = 'RoleGps'
 
 #decoding gpx file
 gpx_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/'+filename+'.gpx')
-#decoded_data = gpx_utilities.decode_gpx_gmaps(gpx_path)
-decoded_data = gpx_utilities.decode_gpx_ors(gpx_path)
+decoded_data = gpx_utilities.decode_gpx(gpx_path)
 
 ###################################################
 # working with data
