@@ -47,16 +47,14 @@ decoded_data = gpx_utilities.decode_gpx(gpx_path)
 
 decoded_data = units_conversion.convert_input_units(decoded_data)
 #INSERTED_POI = [POI NAME, POI ID, DISTANCE FROM START IN METERS]
-inserted_poi = ['BIG', b'\x65', 40000]
+inserted_poi = ['BIG', b'\x66', 40000]
 
-extrated_attributes = extract_data.extract_attributes(decoded_data,inserted_poi)
+[extrated_attributes, decoded_data] = extract_data.extract_attributes(decoded_data,inserted_poi)
 
-print()
 ###################################################
 # encoding output
 
 fit_path = os.path.join(os.path.dirname(__file__) + '/files/TestRoute/'+filename+'.fit')
 fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
-print()
 
 
