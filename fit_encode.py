@@ -8,12 +8,13 @@ def calculate_file_size(numbers_data):
 
     number_point = numbers_data[0]
     number_instructions = numbers_data[1]
+    number_pois = numbers_data[2]
 
     #size of header adapted to obtain expected number, counted value was 139, need to understan where difference comes from
     headers_size = 145
     alphabet_size = 3 * 1 # only 1 entry is in alphabet
     points_size = number_point * 11
-    instructions_size = number_instructions * 44
+    instructions_size = (number_instructions +number_pois)* 44
     difference_file_size = 16
 
     size_attribute = headers_size + points_size + instructions_size - difference_file_size
@@ -51,19 +52,28 @@ def write_points(fit_file,decoded_data):
         byte = struct.pack('<H',point_altitude)
         fit_file.write(byte)
 
-def write_instructions(fit_file,instructions_data,instruction_distance,name_data):
+def write_instructions(fit_file,instruction_data,instruction_distance,name_data,points_of_interest,numbers_data):
 
+
+    number_instructions = numbers_data[1]
+    number_pois = numbers_data[2]
+
+
+    poi_name = points_of_interest[0]
+    poi_type = points_of_interest[1]
+    poi_distance = points_of_interest[2]
+    poi_identification = points_of_interest[3]
 
 
     # starts in -1 since first instructions should be 0
     instruction_identification = -1
-    for i in range (0,len(instructions_data)): #TBD Update number of points
+    for i in range (0,len(instruction_data)): #TBD Update number of points
 
         # increase identification to make sure that each instruction is in the correct point
         instruction_identification += 1
 
         # steps without turn instructions are identified with 15
-        if instructions_data[i] != b'\xff':
+        if instruction_data[i] != b'\xff':
             # 1 byte
             byte=b'\x04'
             fit_file.write(byte)
@@ -76,7 +86,7 @@ def write_instructions(fit_file,instructions_data,instruction_distance,name_data
 
             # 1 bytes
             # instruction direction
-            byte = instructions_data[i]
+            byte = instruction_data[i]
             fit_file.write(byte)
 
             # 4 bytes
@@ -86,7 +96,8 @@ def write_instructions(fit_file,instructions_data,instruction_distance,name_data
             fit_file.write(byte)
 
             # 4 bytes
-            byte = b'\xFF\xFF\xFF\xFF' #tbd update to identify if instruction is POI to insert 00 00 00 00
+            # header
+            byte = b'\xFF\xFF\xFF\xFF'
             fit_file.write(byte)
 
             # 32 bytes
@@ -97,10 +108,48 @@ def write_instructions(fit_file,instructions_data,instruction_distance,name_data
                 byte += b'\x00' *(32-len(byte))
             else:
                 byte = byte[:32]
-
-            #byte=struct.pack('<s', byte)
-            #byte = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
             fit_file.write(byte)
+
+    # write POI data
+    i=0
+    for i in range (0,number_pois): #TBD Update number of points
+
+        # 1 byte
+        byte=b'\x04'
+        fit_file.write(byte)
+
+        # 2 bytes
+        # instruction identification
+        poi = poi_identification[i]
+        byte = struct.pack('<H',poi)
+        fit_file.write(byte)
+
+        # 1 bytes
+        # instruction direction
+        byte = poi_type[i]
+        fit_file.write(byte)
+
+        # 4 bytes
+        # instruction distance
+        byte = int(float(poi_distance[i]))
+        byte=struct.pack('<I', byte)
+        fit_file.write(byte)
+
+        # 4 bytes
+        # header
+        byte = b'\x00\x00\x00\x00'
+        fit_file.write(byte)
+
+        # 32 bytes
+        # instruction description
+        byte = str.encode(poi_name[i],'utf-8')
+
+        if len(byte) < 32:
+            byte += b'\x00' *(32-len(byte))
+        else:
+            byte = byte[:32]
+        fit_file.write(byte)
+
 
 def write_alphabet(fit_file):
 
@@ -137,7 +186,9 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     numbers_data = extracted_attributes[3]
     number_point = numbers_data[0]
     number_instructions = numbers_data[1]
+    number_pois = numbers_data[2]
     instruction_distance = extracted_attributes[4]
+    points_of_interest = extracted_attributes[5]
 
     # 4 bytes
     # header
@@ -219,6 +270,7 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     fit_file.write(byte)
 
     # 3 bytes
+    # alphabet
     byte=b'\x02\x00\x00'
     fit_file.write(byte)
     # empirical tests show that the presence of the alphabet does not affect the unit handling of the file
@@ -230,7 +282,7 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     fit_file.write(byte)
 
     # 2 bytes
-    number_instructions = number_instructions
+    number_instructions = number_instructions + number_pois
     byte=struct.pack('<H', number_instructions)
     fit_file.write(byte)
 
@@ -239,7 +291,7 @@ def encode_fit (fit_path,decoded_data,extracted_attributes):
     byte=b'\x44\x00\x00\xFA\x00\x05\x01\x02\x84\x02\x01\x00\x03\x04\x86\x04\x04\x86\x05\x20\x07'
     fit_file.write(byte)
 
-    write_instructions(fit_file,instruction_data,instruction_distance,name_data)
+    write_instructions(fit_file,instruction_data,instruction_distance,name_data,points_of_interest,numbers_data)
 
     # 10 bytes
     # header
