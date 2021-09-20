@@ -87,7 +87,6 @@ def convert_input_units(decoded_data):
 
         name_data_converted.append(name[:32])
 
-        print()
 
 
     decoded_data = [latitude_data_converted,longitude_data_converted,altitude_data_converted,instruction_data_converted,name_data_converted]

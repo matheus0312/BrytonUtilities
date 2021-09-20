@@ -10,3 +10,5 @@ def analyze_fit_files(analysis_mode):
         for file in files:
             print('\n'+file)
             fit_file = fit_decode.decode_fit(fit_path + file)
+    else:
+        return 0
