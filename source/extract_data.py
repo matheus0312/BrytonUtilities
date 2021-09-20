@@ -92,14 +92,14 @@ def add_poi_by_climb(points_of_interest, point_attribute):
             poi_distance.append(mountain_start_distance)
             poi_identification.append(mountain_start_point)
 
-            print('st '+str(int(grade))+'% '+str(int(float((mountain_finish_distance-mountain_start_distance)/1000.0)))+'km')
+            # ('st '+str(int(grade))+'% '+str(int(float((mountain_finish_distance-mountain_start_distance)/1000.0)))+'km')
 
             poi_name.append('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
             poi_type.append(b'\x65')
             poi_distance.append(mountain_finish_distance)
             poi_identification.append(mountain_finish_point)
 
-            print('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
+            #('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
 
             i = j
 
@@ -258,7 +258,7 @@ def calculate_lat_lon_bounding_box(latitude_data, longitude_data):
     lat_lon_bounding_box = [lat_ne_bounding_box, lat_sw_bounding_box, lon_ne_bounding_box, lon_sw_bounding_box]
     return lat_lon_bounding_box
 
-def extract_attributes(decoded_data,inserted_poi):
+def extract_attributes(decoded_data):
 
     latitude_data = decoded_data[0]
     longitude_data = decoded_data[1]

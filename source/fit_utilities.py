@@ -98,5 +98,4 @@ def decode_fit(fit_path):
 
     fit_contents = fit_data()
 
-    print()
 
