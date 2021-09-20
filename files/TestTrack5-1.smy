@@ -1,9 +1,0 @@
-4 bytes reserved (0100)
-	4 bytes number os points
-		  4 bytes lat bounding box NE
-		            4 bytes lat bounding box SW
-		                      4 bytes lon bounding box NE
-		                                4 bytes lon bounding box SW
-		                                          4 bytes distance ?
-0100 0a00 1ee5 35fe cce1 35fe 2eb4 f3fc 8cb0 f3fc bb02 0000 2a00 14fe 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
