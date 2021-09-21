@@ -60,11 +60,11 @@ def add_poi_by_climb(points_of_interest, point_attribute):
         if (altitude_from_start[i] > altitude_from_start[i+1]) and (altitude_from_start[i] > altitude_from_start[i-1]):
             checkpoint_climb.append(i)
             pass
-        # find "whole"
+        # find valley
         elif (altitude_from_start[i] < altitude_from_start[i+1]) and (altitude_from_start[i] < altitude_from_start[i-1]):
             checkpoint_climb.append(i)
             pass
-        # find place
+        # find plane
         elif (altitude_from_start[i] == altitude_from_start[i + 1]) and (altitude_from_start[i] < altitude_from_start[i - 1]):
             checkpoint_climb.append(i)
             pass
@@ -74,9 +74,6 @@ def add_poi_by_climb(points_of_interest, point_attribute):
     i= 0
     while i < len(checkpoint_climb)-1:
         in_mountain=False
-        current_distance = 0
-        current_delta_altitude = 0
-        climb_score_max = 0
         current_distance = distance_from_start[checkpoint_climb[i+1]] - distance_from_start[checkpoint_climb[i]]
         current_delta_altitude = altitude_from_start[checkpoint_climb[i+1]]- altitude_from_start[checkpoint_climb[i]]
         if current_distance >= 500:
@@ -90,7 +87,6 @@ def add_poi_by_climb(points_of_interest, point_attribute):
                         mountain_start_distance = distance_from_start[checkpoint_climb[i]]
                         mountain_finish_distance = distance_from_start[checkpoint_climb[i+1]]
                         in_mountain=True
-                        i+=1
 
         i += 1
         if in_mountain:
@@ -138,6 +134,7 @@ def add_poi_by_distance(points_of_interest, point_attribute,inserted_poi):
 
 def calculate_points_attributes(latitude_data,longitude_data,altitude_data):
 
+
     distance_from_last_point = []
     delta_altitude_from_last_point = []
     distance_from_start =[]
@@ -159,7 +156,7 @@ def calculate_points_attributes(latitude_data,longitude_data,altitude_data):
         distance_from_start.append(current_distance_from_start)
         current_delta_altitude = (altitude_data[i] - altitude_data[i-1])
         delta_altitude_from_last_point.append(current_delta_altitude)
-        current_altitude_from_start += current_delta_altitude
+        current_altitude_from_start = (altitude_data[i]-altitude_data[0])/5
         altitude_from_start.append(current_altitude_from_start)
     point_attribute = [distance_from_last_point,delta_altitude_from_last_point,distance_from_start,altitude_from_start]
 
