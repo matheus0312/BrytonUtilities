@@ -65,8 +65,8 @@ def add_poi_by_climb(points_of_interest, point_attribute):
             checkpoint_climb.append(i)
             pass
         # find plane
-        elif (altitude_from_start[i] == altitude_from_start[i + 1]) and (altitude_from_start[i] < altitude_from_start[i - 1]):
-            checkpoint_climb.append(i)
+        elif (altitude_from_start[i] == altitude_from_start[i + 1]) and (altitude_from_start[i] == altitude_from_start[i - 1]):
+            #checkpoint_climb.append(i)
             pass
         i+=1
 
@@ -95,7 +95,7 @@ def add_poi_by_climb(points_of_interest, point_attribute):
             poi_distance.append(mountain_start_distance)
             poi_identification.append(mountain_start_point)
 
-            print('st '+ str(int(climb_score))+ 'pts ' +str(int(grade))+'% st '+str(float(mountain_start_distance)/1000.0)+'km fin '+ str(float(mountain_finish_distance)/1000.0)+ 'km')
+            print('mount 1 st '+ str(int(climb_score))+ 'pts ' +str(int(grade))+'% st '+str(float(mountain_start_distance)/1000.0)+'km fin '+ str(float(mountain_finish_distance)/1000.0)+ 'km')
 
             poi_name.append('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
             poi_type.append(b'\x65')
@@ -103,6 +103,28 @@ def add_poi_by_climb(points_of_interest, point_attribute):
             poi_identification.append(mountain_finish_point)
 
             #('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
+
+    i=0
+    # iterates over found climbs trying to define bigger ones
+    while i < len(poi_identification)-3:
+            current_distance=distance_from_start[poi_identification[i+3]] - distance_from_start[poi_identification[i]]
+            current_delta_altitude=altitude_from_start[poi_identification[i + 3]] - altitude_from_start[poi_identification[i]]
+            if current_distance >= 500:
+                grade=(current_delta_altitude / current_distance) * 100
+                if (grade >= 3):
+                    climb_score=grade * current_distance
+                    if (climb_score >= 3500):
+                        if not in_mountain:
+                            mountain_start_point=poi_identification[i]
+                            mountain_finish_point=poi_identification[i + 3]
+                            mountain_start_distance=distance_from_start[poi_identification[i]]
+                            mountain_finish_distance=distance_from_start[poi_identification[i + 3]]
+                            in_mountain=True
+                            print('mount 2 st ' + str(int(climb_score)) + 'pts ' + str(int(grade)) + '% st ' + str(
+                                float(mountain_start_distance) / 1000.0) + 'km fin ' + str(
+                                float(mountain_finish_distance) / 1000.0) + 'km')
+
+            i+=2
 
 
     points_of_interest = [poi_name,poi_type,poi_distance,poi_identification]
