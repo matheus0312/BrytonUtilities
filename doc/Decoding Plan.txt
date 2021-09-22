@@ -1,0 +1,17 @@
+.fit 
+[Header]
+4 bytes reserved 0E 10 6C 00
+4 bytes file size -16bytes (ex.: in a file with total size 32 bytes, this field will present 16)
+4 bytes reserved 2E 46 49 54
+2 bytes (maybe it is a checksum, modifying it to 0000 did not affect the output files)?
+
+31 bytes reserved 41 00 00 FE 00 08 01 02 84 02 04 85 03 04 85 04 04 85 05 04 85 06 04 86 07 02 84 08 02 84 01
+
+16 bytes part name
+8 bytes part time in milisseconds
+
+4 bytes minimum ?
+4 bytes maximum ?
+2 bytes identification
+4 bytes ?
+

@@ -34,9 +34,8 @@ def get_mountains_data(mountain,distance_from_start,altitude_from_start):
         poi_distance.append(distance_from_start[mountain[i]])
         poi_identification.append(mountain[i])
 
-        #print('C{} D{}km st{} fi{} alt{}'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2),distance_from_start[mountain[i]], distance_from_start[mountain[i+1]],altitude))
-
-        print('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
+        #print('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
+        print('C{} D{}km st{}m fin{}m G{}% A{}m'.format(cat, round(distance/1000, 2),round(distance_from_start[mountain[i]],2),round(distance_from_start[mountain[i+1]],2),grade,altitude))
         poi_name.append('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
         poi_type.append(b'\x65')
         poi_distance.append(distance_from_start[mountain[i+1]])
@@ -61,11 +60,6 @@ def ordenate_mountains(mountain,mountains_found):
             i+=1
         j+=1
 
-    i=0
-    while i<len(mountain)-1:
-        if mountain[i] == mountain[i+1]:
-            mountain.remove(mountain[i])
-        i+=1
 
 
     return mountain
@@ -96,7 +90,6 @@ def aggregate_mountains(mountain,distance_from_start,altitude_from_start):
             mountain.append(mountain_start_point)
             mountain.append(mountain_finish_point)
             i+=2
-            mountains_found+=1
         i+=2
 
     mountain = ordenate_mountains(mountain,mountains_found)
