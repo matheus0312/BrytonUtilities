@@ -90,12 +90,24 @@ def add_poi_by_climb(points_of_interest, point_attribute):
 
         i += 1
         if in_mountain:
-            poi_name.append('st '+str(int(grade))+'% '+str(int(float((mountain_finish_distance-mountain_start_distance)/1000.0)))+'km')
+            if climb_score > 64000:
+                cat = 'HC'
+            elif climb_score > 48000:
+                cat = '1'
+            elif climb_score > 32000:
+                cat = '2'
+            elif climb_score > 16000:
+                cat = '3'
+            elif climb_score > 8000:
+                cat = '4'
+            else:
+                cat = '5'
+            poi_name.append('C{} D{}km'.format(cat,round((mountain_finish_distance-mountain_start_distance)/1000.0,2)))
             poi_type.append(b'\x64')
             poi_distance.append(mountain_start_distance)
             poi_identification.append(mountain_start_point)
 
-            print('mount 1 st '+ str(int(climb_score))+ 'pts ' +str(int(grade))+'% st '+str(float(mountain_start_distance)/1000.0)+'km fin '+ str(float(mountain_finish_distance)/1000.0)+ 'km')
+            print('C{} D{}km'.format(cat,round((mountain_finish_distance-mountain_start_distance)/1000.0,2)))
 
             poi_name.append('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
             poi_type.append(b'\x65')
