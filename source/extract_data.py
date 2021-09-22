@@ -142,9 +142,9 @@ def add_poi_by_climb(points_of_interest, point_attribute):
         elif (altitude_from_start[i] < altitude_from_start[i+1]) and (altitude_from_start[i] < altitude_from_start[i-1]):
             checkpoint_climb.append(i)
             pass
-        # find plane deactivated in accordance with golden cheetah logic
+        # find plane
         elif (altitude_from_start[i] == altitude_from_start[i + 1]) and (altitude_from_start[i] == altitude_from_start[i - 1]):
-            #checkpoint_climb.append(i)
+            checkpoint_climb.append(i)
             pass
         i+=1
 
