@@ -3,7 +3,9 @@ After investigating the output files, I noticed that the Bryton active app inser
 
 Frustrated with this experience, I've analyzed the .fit files to understand how the route information is encoded and created python scripts to "translate" .gpx in .fit without errors.
 
-This work is based on the idea and execution of two others designed for bryton units TBD
+This work is based on the idea and execution of two others designed for bryton units: https://github.com/andbue/ors2bryton and https://github.com/erosinnocenti/openbryton.
+
+Also some algorithms were based on the implementation done on https://github.com/GoldenCheetah/GoldenCheetah.
 
 As far as my research goes, this is the first project to work with the bryton 420 unit, due to this (and the fact that it is the only one I own) this project is primarily focused on this model.
 If you want to add functionalities for other units fell free to help, I just can't test and guarantee compatibility since I don't own others.
