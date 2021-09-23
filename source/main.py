@@ -11,6 +11,7 @@ import fit_utilities
 import analysis
 import extract_data
 import units_conversion
+import tests
 from sys import argv
 
 ###################################################
@@ -19,17 +20,6 @@ from sys import argv
 # location of input gpx file
 gpx_path = argv[1]
 
-#defines tipe of files to be analyzed (options: none, fit)
-analysis_mode = 'none'
-
-
-
-
-###################################################
-# analyzing files
-
-# function to help decode fit files
-analysis.analyze_fit_files(analysis_mode)
 
 
 ###################################################
@@ -52,5 +42,11 @@ decoded_data = units_conversion.convert_input_units(decoded_data)
 
 fit_path = gpx_path.replace('.gpx','.fit')
 fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
+
+
+###################################################
+# analyzing output
+
+tests.test_output_fit(fit_path)
 
 
