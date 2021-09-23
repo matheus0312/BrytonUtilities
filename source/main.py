@@ -47,6 +47,6 @@ fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
 ###################################################
 # analyzing output
 
-tests.test_output_fit(fit_path)
+tests.test_fit_file(fit_path)
 
 
