@@ -16,18 +16,26 @@ def get_mountains_data(mountain,distance_from_start,altitude_from_start):
         grade = (altitude/distance)*100
         climb_score = grade*distance
 
-        if climb_score > 64000:
-            cat='HC'
-        elif climb_score > 48000:
-            cat='1'
-        elif climb_score > 32000:
-            cat='2'
-        elif climb_score > 16000:
-            cat='3'
-        elif climb_score > 8000:
-            cat='4'
+        if grade > 3:
+            if climb_score > 64000:
+                cat='HC'
+            elif climb_score > 48000:
+                cat='1'
+            elif climb_score > 32000:
+                cat='2'
+            elif climb_score > 16000:
+                cat='3'
+            elif climb_score > 8000:
+                cat='4'
+            else:
+                cat='5'
         else:
-            cat='5'
+            if climb_score > 4000:
+                cat='6'
+            elif climb_score > 2000:
+                cat='7'
+            else:
+                cat='8'
 
         poi_name.append('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
         poi_type.append(b'\x64')
@@ -177,6 +185,37 @@ def add_poi_by_climb(points_of_interest, point_attribute):
     while i < len(mountain)*2:
         mountain = aggregate_mountains(mountain,distance_from_start,altitude_from_start)
         i+=1
+
+    # no categorized climbs found, reduce criteria to
+    if len(mountain)==0:
+
+        # iterates through peaks and climbs found above
+        # detects if there is a climb between current and next point
+        i=0
+        while i < len(checkpoint_climb) - 1:
+            in_mountain=False
+            current_distance=distance_from_start[checkpoint_climb[i + 1]] - distance_from_start[checkpoint_climb[i]]
+            current_delta_altitude=altitude_from_start[checkpoint_climb[i + 1]] - altitude_from_start[
+                checkpoint_climb[i]]
+            if current_distance >= 500:
+                grade=(current_delta_altitude / current_distance) * 100
+                if (grade >= 1):
+                    climb_score=grade * current_distance
+                    if (climb_score >= 1000):
+                        if not in_mountain:
+                            mountain_start_point=checkpoint_climb[i]
+                            mountain_finish_point=checkpoint_climb[i + 1]
+                            in_mountain=True
+
+            i+=1
+            if in_mountain:
+                mountain.append(mountain_start_point)
+                mountain.append(mountain_finish_point)
+
+        i=0
+        while i < len(mountain) * 2:
+            mountain=aggregate_mountains(mountain, distance_from_start, altitude_from_start)
+            i+=1
 
     points_of_interest = get_mountains_data(mountain,distance_from_start,altitude_from_start)
 
