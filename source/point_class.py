@@ -17,3 +17,18 @@ class Point:
 
     def set_name(self, name):
         self.__name = name
+
+    def get_latitude(self):
+        return self.__latitude
+
+    def get_longitude(self):
+        return self.__longitude
+
+    def get_altitude(self):
+        return self.__altitude
+
+    def get_instruction(self):
+        return self.__instruction
+
+    def get_name(self):
+        return self.__name

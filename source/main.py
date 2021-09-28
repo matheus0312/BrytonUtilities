@@ -1,8 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
 import gpx_utilities
 import bin_utilities
 import fit_decode
@@ -12,15 +7,14 @@ import analysis
 import extract_data
 import units_conversion
 from sys import argv
+import gpx_class
 
 ###################################################
 # configuration
 
-# location of input gpx file
-gpx_path = argv[1]
+# Creates an object gpx located at the input location
+gpx = gpx_class.Gpx(argv[1])
 
-#defines tipe of files to be analyzed (options: none, fit)
-analysis_mode = 'none'
 
 
 
@@ -29,15 +23,31 @@ analysis_mode = 'none'
 # analyzing files
 
 # function to help decode fit files
-analysis.analyze_fit_files(analysis_mode)
 
 
 ###################################################
 # decoding input
 
 #decoding gpx file
-decoded_data = gpx_utilities.decode_gpx(gpx_path)
+gpx.decode_gpx()
 
+gpx_points = gpx.get_points()
+
+latitude = []
+longitude = []
+altitude = []
+instruction = []
+name = []
+for gpx_point in gpx_points:
+    latitude.append(gpx_point.get_latitude())
+    longitude.append(gpx_point.get_longitude())
+    altitude.append(gpx_point.get_altitude())
+    instruction.append(gpx_point.get_instruction())
+    name.append(gpx_point.get_name())
+print()
+
+decoded_data = [latitude, longitude, altitude, instruction, name]
+decoded_data_old = gpx_utilities.decode_gpx_ors(argv[1])
 ###################################################
 # working with data
 
@@ -50,7 +60,7 @@ decoded_data = units_conversion.convert_input_units(decoded_data)
 ###################################################
 # encoding output
 
-fit_path = gpx_path.replace('.gpx','.fit')
+fit_path = argv[1].replace('.gpx','.fit')
 fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
 
 
