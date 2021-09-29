@@ -1,4 +1,5 @@
 import point_class
+import copy
 
 class Gpx:
 
@@ -62,6 +63,15 @@ class Gpx:
         else:
             return False
 
+    def __set_default_point(self):
+
+        self.__current_point.set_latitude(0)
+        self.__current_point.set_longitude(0)
+        self.__current_point.set_altitude(0)
+        self.__current_point.set_instruction(15)
+        self.__current_point.set_name('')
+
+
     def __decode_ors(self):
 
         self.__open_ors()
@@ -75,7 +85,8 @@ class Gpx:
 
             if self.__point_is_complete():
                 # in here the append is adding a reference to current point, so all items are the same, need to understand how to fix it.
-                self.__points.append(current_point)
+                self.__points.append(copy.deepcopy(self.__current_point))
+                self.__set_default_point()
 
     def get_points(self):
         return self.__points

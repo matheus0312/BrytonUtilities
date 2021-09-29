@@ -1,7 +1,11 @@
 class Point:
 
     def __init__(self):
-        pass
+        self.__latitude = 0
+        self.__longitude = 0
+        self.__altitude = 0
+        self.__instruction = ''
+        self.__name = ''
 
     def set_latitude(self, latitude):
         self.__latitude = latitude
