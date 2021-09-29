@@ -102,3 +102,6 @@ class Gpx:
     def get_points(self):
         return self.__points
 
+    def get_boundaries(self):
+        return self.__boundaries
+

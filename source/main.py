@@ -8,6 +8,7 @@ import extract_data
 import units_conversion
 from sys import argv
 import gpx_class
+import route_class
 
 ###################################################
 # configuration
@@ -32,6 +33,7 @@ gpx = gpx_class.Gpx(argv[1])
 gpx.decode_gpx()
 
 gpx_points = gpx.get_points()
+gpx_boundaries = gpx.get_boundaries()
 
 # latitude = []
 # longitude = []
@@ -48,6 +50,10 @@ gpx_points = gpx.get_points()
 # decoded_data_old = gpx_utilities.decode_gpx_ors(argv[1])
 ###################################################
 # working with data
+
+route = route_class.Route(gpx_points, gpx_boundaries)
+
+route.calculate_route()
 
 decoded_data = units_conversion.convert_input_units(decoded_data)
 #INSERTED_POI = [POI NAME, POI ID, DISTANCE FROM START IN METERS]

@@ -7,6 +7,13 @@ class Point:
         self.__instruction = ''
         self.__name = ''
 
+    def convert_lat_lon(self):
+
+        lat = self.__latitude
+        lon = self.__longitude
+
+        return [lat,lon]
+
     def set_latitude(self, latitude):
         self.__latitude = float(latitude)
 
