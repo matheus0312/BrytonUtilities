@@ -1,4 +1,5 @@
 import point_class
+import boundaries_class
 import copy
 
 class Gpx:
@@ -13,6 +14,7 @@ class Gpx:
         self.__current_point = point_class.Point()
         self.__points = []
         self.__current_number_of_items = 0
+        self.__boundaries = boundaries_class.Boundary()
 
     def decode_gpx(self):
         self.__find_gpx_type()
@@ -71,6 +73,12 @@ class Gpx:
         self.__current_point.set_instruction(15)
         self.__current_point.set_name('')
 
+    def __search_for_bound(self):
+        if self.__current_line.find('<bounds') != -1:
+            self.__boundaries.set_max_latitude(self.__current_line.split('"')[1])
+            self.__boundaries.set_max_longitude(self.__current_line.split('"')[3])
+            self.__boundaries.set_min_latitude(self.__current_line.split('"')[5])
+            self.__boundaries.set_min_longitude(self.__current_line.split('"')[7])
 
     def __decode_ors(self):
 
@@ -78,10 +86,13 @@ class Gpx:
         for self.__current_line in self.__gpx_lines:
             self.__current_line = '<' + self.__current_line
 
+
+            self.__search_for_bound()
             self.__search_for_lat_lon()
             self.__search_for_alt()
             self.__search_for_ins()
             self.__search_for_nam()
+
 
             if self.__point_is_complete():
                 # in here the append is adding a reference to current point, so all items are the same, need to understand how to fix it.

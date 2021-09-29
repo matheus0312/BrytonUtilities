@@ -8,13 +8,13 @@ class Point:
         self.__name = ''
 
     def set_latitude(self, latitude):
-        self.__latitude = latitude
+        self.__latitude = float(latitude)
 
     def set_longitude(self, longitude):
-        self.__longitude = longitude
+        self.__longitude = float(longitude)
 
     def set_altitude(self, altitude):
-        self.__altitude = altitude
+        self.__altitude = float(altitude)
 
     def set_instruction(self, instruction):
         self.__instruction = instruction

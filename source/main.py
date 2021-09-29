@@ -33,21 +33,19 @@ gpx.decode_gpx()
 
 gpx_points = gpx.get_points()
 
-latitude = []
-longitude = []
-altitude = []
-instruction = []
-name = []
-for gpx_point in gpx_points:
-    latitude.append(gpx_point.get_latitude())
-    longitude.append(gpx_point.get_longitude())
-    altitude.append(gpx_point.get_altitude())
-    instruction.append(gpx_point.get_instruction())
-    name.append(gpx_point.get_name())
-print()
-
-decoded_data = [latitude, longitude, altitude, instruction, name]
-decoded_data_old = gpx_utilities.decode_gpx_ors(argv[1])
+# latitude = []
+# longitude = []
+# altitude = []
+# instruction = []
+# name = []
+# for gpx_point in gpx_points:
+#     latitude.append(gpx_point.get_latitude())
+#     longitude.append(gpx_point.get_longitude())
+#     altitude.append(gpx_point.get_altitude())
+#     instruction.append(gpx_point.get_instruction())
+#     name.append(gpx_point.get_name())
+# decoded_data = [latitude, longitude, altitude, instruction, name]
+# decoded_data_old = gpx_utilities.decode_gpx_ors(argv[1])
 ###################################################
 # working with data
 
