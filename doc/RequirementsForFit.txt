@@ -1,0 +1,156 @@
+Comment
+The bytes addressing in this file start in byte 0:
+
+All numeric data shall be encoded as little endian.
+
+The latitude and longitude coordinates in the file shall be multiplied by 1000000 and encoded as INT ex.: -30.12345 will be encoded as -30123450.
+
+The altitude data shall be multiplied by 5 and summed by 2500 before being encoed as UINT ex.: 13m will be encoded as 2565.
+
+R1
+From the byte 0 to 3 the following fixed content should be found 0E 10 6C 00
+
+R2
+From the byte 4 to 7 the file size subtracted from -16 should be found
+
+R3
+From the byte 8 to 11 the following fixed content should be found 2E 46 49 54
+
+R4
+From the byte 12 to 13 the following fixed content should be found 00 00
+
+R5
+From the byte 14 to 45 the following fixed content should be found 00 00 FE 00 08 01 02 84 02 04 85 03 04 85 04 04 85 05 04 85 06 04 86 07 02 84 08 02 84 01
+
+R6
+From the byte 46 to 47 the number of points should be found
+
+R7
+From the byte 48 to 51 the lat ne bounding box should be found (maximum latitude)
+
+R8
+From the byte 53 to 56 the lat sw bounding box should be found (minimum latitude)
+
+R9
+From the byte 57 to 60 the lon ne bounding box should be found (maximum longitude)
+
+R10
+From the byte 61 to 64 the lon sw bounding box should be found (minimum longitude)
+
+R11
+From the byte 65 to 68 the total distance in meters should be found
+
+R
+From the byte 69 to 70 the maximum altitude shall be found
+
+R 
+From the byte 71 to 72 the minimum altitude shall be found
+
+R
+From the byte 73 to 81 the following fixed content shall be found 42 00 00 FB 00 01 01 02 84
+
+R 
+From the byte 82 to 84 the following fixed content shall be found 02 00 00
+
+R 
+From the byte 85 to 94 the following fixed content shall be found 43 00 00 FD 00 01 01 02 84 03
+
+R
+From the byte 95 to 96 the number of instructions shall be found
+
+R 
+From the byte 97 to 117 the following fixed content shall be found 44 00 00 FA 00 05 01 02 84 02 01 00 03 04 86 04 04 86 05 20 07
+
+R
+Starting on byte 118 the instructions should be found
+
+R
+The total instruction size shall be 44 bytes
+
+R
+The number of instructions shall be equal to the number declared
+
+R
+Each instruction shall start with the reserved byte 04
+
+R
+Each instruction shall be related to a valid route point 
+
+R
+Each instruction shall contain a valid direction
+
+R
+Each instruction shall contain a valid distance
+
+R
+Each instruction shall contain 4 bytes reserved before the instruction identification
+
+R
+The reserved bytes for directions shall be FF FF FF FF
+
+R
+The reserved bytes for POIs shall be 00 00 00 00
+
+R
+Each instruction shall contain a 32 byte description
+
+R
+The instruction description shall only contain non accented characters
+
+TBD
+
+[Points in route]
+10 bytes reserved 45 00 00 FC 00 01 01 02 84 05
+2 bytes number of points
+15 bytes reserved 46 00 00 F9 00 03 01 04 85 02 04 85 03 02 84
+Repeating for each point
+	1 byte reserved 06
+	4 bytes latitude
+	4 bytes longitude
+	2 bytes altitude
+
+2 bytes (maybe it is a checksum, modifying it to 0000 did not affect the output files)?
+
+
+--------------------------------------------------------------------------------
+
+.smy
+Header file with general information for route
+2 bytes reserved (0100)
+	2 bytes number os points
+		  4 bytes lat bounding box NE
+		            4 bytes lat bounding box SW
+		                      4 bytes lon bounding box NE
+		                                4 bytes lon bounding box SW
+		                                          4 bytes distance
+		                                          			3 bytes (not found in .fit)? 
+		                                          				1 byte reserved FE
+
+.zinfo
+Header file indicating number o .zmap files
+6 bytes header (hard coded 0300 0000 0c00)
+			   2 bytes number of files parts
+				    2 total bytes number of points ?
+				    	 2 bytes reserved 0000
+				    	 	  2 bytes number of points shifted 1 to the left(ex.: 1200 -> 2001, 1234 -> 2341 same as multiplying by 16)
+				    	 	  	   2 bytes reserved 0000
+										8 bytes file names (hard coded ba05 0000 9906 0000)
+															8 bytes second file (hard coded b905 0000 9906 0000)
+																			....
+
+.zmap -> completely found in .fit
+File indicating the points that form the described route
+4 bytes latitude *1000000
+		  4 bytes longitude *1000000
+		  			4 bytes altitude
+		  					  4 bytes point identification
+
+.tinfo -> Completely found in .fit
+File indicating all turn and POI information along route
+2 bytes point identification (a long route will have points without instructions)
+     2 bytes direction instruction (01 go ahead, 02 turn right, 21 end of route, ...) , after end of route indicates POI number (65 peak, 68 Checkpoint, 66 Food, 64 General)
+       	  4 bytes distance in lane TBD better describe this attribute
+                    4 bytes reserved FF FF FF FF for directions 00 00 00 00 for POIs
+							      32 bytes lane identification (street blablabla)
+
+

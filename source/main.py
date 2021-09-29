@@ -6,6 +6,7 @@ import fit_utilities
 import analysis
 import extract_data
 import units_conversion
+import tests
 from sys import argv
 import gpx_class
 import route_class
@@ -15,15 +16,6 @@ import route_class
 
 # Creates an object gpx located at the input location
 gpx = gpx_class.Gpx(argv[1])
-
-
-
-
-
-###################################################
-# analyzing files
-
-# function to help decode fit files
 
 
 ###################################################
@@ -66,5 +58,11 @@ decoded_data = units_conversion.convert_input_units(decoded_data)
 
 fit_path = argv[1].replace('.gpx','.fit')
 fit_encode.encode_fit(fit_path,decoded_data,extrated_attributes)
+
+
+###################################################
+# analyzing output
+
+tests.test_fit_file(fit_path)
 
 
