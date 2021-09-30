@@ -3,6 +3,107 @@ from geopy import distance
 #import pandas as pd
 import math
 
+def get_mountains_data(mountain,distance_from_start,altitude_from_start):
+    poi_name = []
+    poi_type = []
+    poi_distance = []
+    poi_identification = []
+
+    i=0
+    while i < len(mountain)-1:
+        distance = distance_from_start[mountain[i+1]]-distance_from_start[mountain[i]]
+        altitude = altitude_from_start[mountain[i+1]]-altitude_from_start[mountain[i]]
+        grade = (altitude/distance)*100
+        climb_score = grade*distance
+
+        if grade > 3:
+            if climb_score > 64000:
+                cat='HC'
+            elif climb_score > 48000:
+                cat='1'
+            elif climb_score > 32000:
+                cat='2'
+            elif climb_score > 16000:
+                cat='3'
+            elif climb_score > 8000:
+                cat='4'
+            else:
+                cat='5'
+        else:
+            if climb_score > 4000:
+                cat='6'
+            elif climb_score > 2000:
+                cat='7'
+            else:
+                cat='8'
+
+        poi_name.append('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
+        poi_type.append(b'\x64')
+        poi_distance.append(distance_from_start[mountain[i]])
+        poi_identification.append(mountain[i])
+
+        #print('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
+        print('C{} D{}km st{}m fin{}m G{}% A{}m'.format(cat, round(distance/1000, 2),round(distance_from_start[mountain[i]],2),round(distance_from_start[mountain[i+1]],2),grade,altitude))
+        poi_name.append('C{} D{}km'.format(cat, round((distance_from_start[mountain[i+1]] - distance_from_start[mountain[i]]) / 1000.0, 2)))
+        poi_type.append(b'\x65')
+        poi_distance.append(distance_from_start[mountain[i+1]])
+        poi_identification.append(mountain[i+1])
+        i+=2
+
+    points_of_interest=[poi_name, poi_type, poi_distance, poi_identification]
+    return points_of_interest
+
+
+def ordenate_mountains(mountain,mountains_found):
+
+
+    j=0
+    while j < len(mountain):
+        i=0
+        while i < len(mountain)-1:
+            if mountain[i] > mountain[i+1]:
+                temp = mountain[i+1]
+                mountain[i+1] = mountain[i]
+                mountain[i] = temp
+            i+=1
+        j+=1
+
+
+
+    return mountain
+
+def aggregate_mountains(mountain,distance_from_start,altitude_from_start):
+
+    i=0
+    mountains_found = 0
+    while i < len(mountain) - 3:
+
+        in_mountain=False
+        current_distance=distance_from_start[mountain[i + 3]] - distance_from_start[mountain[i]]
+        current_delta_altitude=altitude_from_start[mountain[i + 3]] - altitude_from_start[mountain[i]]
+        if current_distance >= 500:
+            grade=(current_delta_altitude / current_distance) * 100
+            if (grade >= 3):
+                climb_score=grade * current_distance
+                if (climb_score >= 3500):
+                    if not in_mountain:
+                        mountain_start_point=mountain[i]
+                        mountain_finish_point=mountain[i + 3]
+                        in_mountain=True
+        if in_mountain:
+            mountain.remove(mountain[i])
+            mountain.remove(mountain[i])
+            mountain.remove(mountain[i])
+            mountain.remove(mountain[i])
+            mountain.append(mountain_start_point)
+            mountain.append(mountain_finish_point)
+            i+=2
+        i+=2
+
+    mountain = ordenate_mountains(mountain,mountains_found)
+
+    return mountain
+
 def safediv(num,den):
     if den == 0:
         if num == 0:
@@ -32,79 +133,91 @@ def add_poi_to_instructions(instruction_distance,instruction_data,points_of_inte
 def add_poi_by_climb(points_of_interest, point_attribute):
     distance_from_last_point=point_attribute[0]
     altitude_from_last_point=point_attribute[1]
-
-    #for i in range(0,len(distance_from_last_point)):
-     #   print(distance_from_last_point[i],altitude_from_last_point[i])
-    poi_name = []
-    poi_type = []
-    poi_distance = []
-    poi_identification = []
-
-
-    mountain_start = 0
-    mountain_finish = 0
+    distance_from_start=point_attribute[2]
+    altitude_from_start=point_attribute[3]
     mountain = []
-    #grade = []
-    #for i in range (0, len(distance_from_last_point)-1):
-    #    grade.append((altitude_from_last_point[i+1]-altitude_from_last_point[i])/(distance_from_last_point[i+1]-distance_from_last_point[i])*100)
-    #grade.append(0)
+    checkpoint_climb = []
 
-    distance_from_start = [0.0]
+    #start in second point
+    i=1
+    #iterates over all points excluding first and last to detect peaks and valleys
+    while i < len(altitude_from_start)-1:
+        # find peak
+        if (altitude_from_start[i] > altitude_from_start[i+1]) and (altitude_from_start[i] > altitude_from_start[i-1]):
+            checkpoint_climb.append(i)
+            pass
+        # find valley
+        elif (altitude_from_start[i] < altitude_from_start[i+1]) and (altitude_from_start[i] < altitude_from_start[i-1]):
+            checkpoint_climb.append(i)
+            pass
+        # find plane
+        elif (altitude_from_start[i] == altitude_from_start[i + 1]) and (altitude_from_start[i] == altitude_from_start[i - 1]):
+            checkpoint_climb.append(i)
+            pass
+        i+=1
 
-    # creates array indicating distance from start for each point
-    for i in range (1,len(distance_from_last_point)):
-        distance_from_start.append(distance_from_start[i-1]+distance_from_last_point[i])
 
-
+    #iterates through peaks and climbs found above
+    # detects if there is a climb between current and next point
     i= 0
-    while i < len(distance_from_last_point):
+    while i < len(checkpoint_climb)-1:
         in_mountain=False
-        current_distance = 0
-        current_delta_altitude = 0
-        for j in range(i+1, len(distance_from_last_point)):
-            current_distance += distance_from_last_point[j]
-            current_delta_altitude += altitude_from_last_point[j]
-            if current_distance >= 500:
-                grade = (current_delta_altitude / current_distance) * 100
-                if (grade >= 3) and (safediv(altitude_from_last_point[j],distance_from_last_point[j])*100>-2):
-                    climb_score = grade * current_distance
-                    if climb_score >= 3500:
-                        if not in_mountain:
-                            mountain_start_point = i
-                            mountain_start_distance = distance_from_start[i]
-                            in_mountain=True
-                    else:
-                        if in_mountain:
-                            mountain_finish_point = j
-                            mountain_finish_distance = distance_from_start[j]
+        current_distance = distance_from_start[checkpoint_climb[i+1]] - distance_from_start[checkpoint_climb[i]]
+        current_delta_altitude = altitude_from_start[checkpoint_climb[i+1]]- altitude_from_start[checkpoint_climb[i]]
+        if current_distance >= 500:
+            grade = (current_delta_altitude / current_distance) * 100
+            if (grade >= 3):
+                climb_score = grade * current_distance
+                if (climb_score >= 3500):
+                    if not in_mountain:
+                        mountain_start_point = checkpoint_climb[i]
+                        mountain_finish_point = checkpoint_climb[i+1]
+                        in_mountain=True
 
-                        break
-                else:
-                    if in_mountain:
-                        mountain_finish_point = j
-                        mountain_finish_distance = distance_from_start[j]
 
-                    break
+
         i += 1
         if in_mountain:
-            poi_name.append('st '+str(int(grade))+'% '+str(int(float((mountain_finish_distance-mountain_start_distance)/1000.0)))+'km')
-            poi_type.append(b'\x65')
-            poi_distance.append(mountain_start_distance)
-            poi_identification.append(mountain_start_point)
+            mountain.append(mountain_start_point)
+            mountain.append(mountain_finish_point)
 
-            # ('st '+str(int(grade))+'% '+str(int(float((mountain_finish_distance-mountain_start_distance)/1000.0)))+'km')
+    i=0
+    while i < len(mountain)*2:
+        mountain = aggregate_mountains(mountain,distance_from_start,altitude_from_start)
+        i+=1
 
-            poi_name.append('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
-            poi_type.append(b'\x65')
-            poi_distance.append(mountain_finish_distance)
-            poi_identification.append(mountain_finish_point)
+    # no categorized climbs found, reduce criteria to
+    if len(mountain)==0:
 
-            #('end' + str(int(current_delta_altitude))+ 'm ' + str(int(climb_score))+'sc')
+        # iterates through peaks and climbs found above
+        # detects if there is a climb between current and next point
+        i=0
+        while i < len(checkpoint_climb) - 1:
+            in_mountain=False
+            current_distance=distance_from_start[checkpoint_climb[i + 1]] - distance_from_start[checkpoint_climb[i]]
+            current_delta_altitude=altitude_from_start[checkpoint_climb[i + 1]] - altitude_from_start[
+                checkpoint_climb[i]]
+            if current_distance >= 500:
+                grade=(current_delta_altitude / current_distance) * 100
+                if (grade >= 1):
+                    climb_score=grade * current_distance
+                    if (climb_score >= 1000):
+                        if not in_mountain:
+                            mountain_start_point=checkpoint_climb[i]
+                            mountain_finish_point=checkpoint_climb[i + 1]
+                            in_mountain=True
 
-            i = j
+            i+=1
+            if in_mountain:
+                mountain.append(mountain_start_point)
+                mountain.append(mountain_finish_point)
 
+        i=0
+        while i < len(mountain) * 2:
+            mountain=aggregate_mountains(mountain, distance_from_start, altitude_from_start)
+            i+=1
 
-    points_of_interest = [poi_name,poi_type,poi_distance,poi_identification]
+    points_of_interest = get_mountains_data(mountain,distance_from_start,altitude_from_start)
 
     return points_of_interest
 
@@ -133,19 +246,31 @@ def add_poi_by_distance(points_of_interest, point_attribute,inserted_poi):
 
 def calculate_points_attributes(latitude_data,longitude_data,altitude_data):
 
+
     distance_from_last_point = []
     delta_altitude_from_last_point = []
+    distance_from_start =[]
+    altitude_from_start = []
 
     distance_from_last_point.append(0)
     delta_altitude_from_last_point.append(0)
+    distance_from_start.append(0)
+    altitude_from_start.append(0)
 
+    current_distance_from_start = 0
+    current_altitude_from_start = 0
     for i in range(1, len(latitude_data)):
         current_point=(latitude_data[i] / 1000000, longitude_data[i] / 1000000)
         last_point=(latitude_data[i - 1] / 1000000, longitude_data[i - 1] / 1000000)
-        distance_from_last_point.append(distance.distance(current_point, last_point).m)
-        delta_altitude_from_last_point.append((altitude_data[i] - altitude_data[i-1]))
-
-    point_attribute = [distance_from_last_point,delta_altitude_from_last_point]
+        current_distance = distance.distance(current_point, last_point).m
+        distance_from_last_point.append(current_distance)
+        current_distance_from_start += current_distance
+        distance_from_start.append(current_distance_from_start)
+        current_delta_altitude = (altitude_data[i] - altitude_data[i-1])
+        delta_altitude_from_last_point.append(current_delta_altitude)
+        current_altitude_from_start = (altitude_data[i]-altitude_data[0])/5
+        altitude_from_start.append(current_altitude_from_start)
+    point_attribute = [distance_from_last_point,delta_altitude_from_last_point,distance_from_start,altitude_from_start]
 
     return point_attribute
 
