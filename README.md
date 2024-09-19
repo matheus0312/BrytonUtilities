@@ -1,5 +1,5 @@
 ### I am not working on this project anymore 
-if you want up to date (and better) information go to @Edward-th fork
+if you want up to date (and better) information go to @Edward-Eth fork
 https://github.com/Edward-Eth/BrytonUtilities24
 
 ---
